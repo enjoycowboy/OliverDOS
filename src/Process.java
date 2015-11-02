@@ -1,74 +1,107 @@
-import java.util.Arrays;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Random;
 import java.util.Date;
-import java.time.Clock;
 
 public class Process
 {
-	/*
+	
+	/* 
  um processo vai ser um objeto com 4 propriedades:
 	>  nome
 	>  tempo de chegada
 	>  tempo de cpu
 	>  prioridade
 	 
+	 tambem sera considerado se o processo foi concluido
 	 */
-	private static int priority;
-	private static double cpuTimeNeeded;
-	private static char[] processName;
-	private static String processDate;
-	private static Process Process;	
-	private final static char[] generateName()  // essa função gera o nome do processo
+	public static int priority;
+	public static double cpuTimeNeeded;
+	public static String name;
+	public static String date;	
+	public static boolean isFinished;
+	public static boolean isRunning = false;
+	static ArrayList<String> processDate = new ArrayList<String>();
+	static ArrayList<Integer> processPriority = new ArrayList<Integer>();
+	static ArrayList<Double> processTimeNeeded = new ArrayList<Double>();
+	static ArrayList<String> processName = new ArrayList<String>();
+	
+	
+	public final static int setRunTime()
+	{
+		
+		int runtime = programEmbed.createCounter();
+		System.out.println(runtime);
+		return runtime;
+	}
+	
+	
+	public final static String generateName()  // essa função gera o nome do processo
 		{
-				final String escopo = "0123456789ABCDEF";
-			    final int N = escopo.length();
-			    char[] assignedName = new char [6];
+		final String escopo = "0123456789ABCDEF";
+	    final int N = escopo.length();
+	    char[] assignedName = new char [6];
 
-			    Random r = new Random();
+	    Random r = new Random();
 
-			    for (int i = 0; i < 6; i++) 
-			    {
-			 	
-			        assignedName[i] = (escopo.charAt(r.nextInt(N)));
-			
-			    }
-				return assignedName;
+	    for (int i = 0; i < 6; i++) 
+	    {
+	 	
+	        assignedName[i] = (escopo.charAt(r.nextInt(N)));
+	
+	    };
+		
+		return String.valueOf(assignedName);
+				
 		}
-
+	
 	private final static String assignDate()   // essa função vai carimbar a data no processo
 	{
 		   // cria um objeto Date
-	       Date processDate = new Date();
-	        
-	       // atribui a data ao objeto criado  
-	       return processDate.toString();
+	      Date processDate = new Date();
+	       
+	      // atribui a data ao objeto criado  
+	      return processDate.toString();
 	}
 	
-	private final static int setPriority()
+	
+	public final static int setPriority()
 	{
-		int setPriority = (int) (Math.random() * 11);
+		int setPriority = (int) (Math.random() * 100) + 1;
 		return setPriority;
 	}
 	
- 	public Process(int priority, double cpuTimeNeeded, String processDate, char[] processName) //construtor
+	
+	public Process()
 	{
-		Process.processName = generateName();
-		Process.processDate = assignDate();
-		Process.priority = setPriority();
+	name = generateName();
+	date = assignDate();
+	priority = setPriority();
+	cpuTimeNeeded = setRunTime();	
+	
+	processDate.add(date);
+	processPriority.add(priority);
+	processTimeNeeded.add(cpuTimeNeeded);
+	processName.add(name);
+	
 	
 	}
+	
+	public static void Kill()
+	{
+		processDate.remove(date);
+		processPriority.remove(priority);
+		processTimeNeeded.remove(cpuTimeNeeded);
+		processName.remove(name);
+	}
+	
 	
 	public static void main (String[] args)
 	{
-		Process = new Process();
-		
-		System.out.println("NAME                PROCESS DATE                priority");
-		System.out.print(Process.processName);
-		System.out.print("        " + Process.processDate);
-		System.out.print("                                " + Process.priority);
+			if (Process.isFinished = true)
+			{
+				Process.Kill();
+			}
 	
 	}
 	
-	}
+}
